@@ -37,19 +37,20 @@ exclude:
 - coffeelint.json
 - CONTRIBUTING.md
 - Dockerfile
-- LICENCE
 - Gemfile
 - Gemfile.lock
 - googlee5aee69e17917677.html
 - gulpfile.js
 - images/
 - lib/
+- LICENCE
 - manifest.json
 - node_modules/
 - package.json
 - Rakefile
 - README.md
 - run_dev.sh
+- service-worker.js
 - tmp/
 - Vagrantfile
 - vendor/
@@ -62,6 +63,7 @@ keep_files:
 - js
 - lib
 - manifest.json
+- service-worker.js
 
 # skip_years: true
 # skip_venues: true

@@ -34,7 +34,8 @@ console.log("")
 
 var LATE_FILES = [
   'googlee5aee69e17917677.html',
-  'manifest.json'
+  'manifest.json',
+  'service-worker.js'
 ];
 
 gulp.task('late_files_lib', function() {
