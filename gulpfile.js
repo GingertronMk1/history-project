@@ -214,7 +214,8 @@ gulp.task('extract_sm_cache', ['download_sm_cache'], shell.task(
     ['tar zxf tmp/sm-cache.tar.gz ']))
 gulp.task('sm_cache', ['download_sm_cache', 'extract_sm_cache'])
 
-gulp.task('netlify_dev', ['sm_cache', 'build_dev'])
+gulp.task('netlify_dev', ['sm_cache', 'build_dev']);
+gulp.task('netlify_prod', ['sm_cache', 'build_deploy']); // temporary command to download a static sm cache rather than using the API
 
 // Master tasks
 
