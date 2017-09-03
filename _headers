@@ -1,7 +1,5 @@
 /*
   Link: </css/main.css>; rel=preload; as=stylesheet
-  Link: </js/lib.js>; rel=preload; as=script
-  Link: </js/app.js>; rel=preload; as=script
 
 /css/*
   Cache-Control: public, max-age=31536000
