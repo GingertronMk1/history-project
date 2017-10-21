@@ -1,34 +1,37 @@
-FROM quay.io/travisci/travis-ruby
+FROM ruby:2.4.2-stretch
 
-###
-# This docker file provides a consistant environment for running the 
-# project locally. See the "Docker" section of README.md for more information
-###
+RUN apt-get update -qq
 
-EXPOSE 8000
+# Set locale, unicode in Ruby falls over without
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qqy locales
+RUN sed -i -e 's/# en_GB.UTF-8 UTF-8/en_GB.UTF-8 UTF-8/' /etc/locale.gen && \
+    echo 'LANG="en_GB.UTF-8"'>/etc/default/locale && \
+    dpkg-reconfigure --frontend=noninteractive locales && \
+    update-locale LANG=en_GB.UTF-8
+ENV LANG en_GB.UTF-8
 
-USER travis
-WORKDIR /home/travis
-SHELL ["/bin/bash", "-lc"]
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN apt-get install -y nodejs
 
-RUN rvm use 2.2.0 --install --binary --fuzzy --default
-RUN nvm install 6.10.0
-RUN nvm alias default 6.10.0
+RUN gem install bundler
+RUN npm install -g bower gulp-cli
 
-# Make a directory for the site
-RUN mkdir -p "/home/travis/newtheatre/history-project"
-WORKDIR "/home/travis/newtheatre/history-project"
+RUN mkdir -p /srv/env
+WORKDIR /srv/env
 
-# Some optional environment variables 
-ENV SMUGMUG_CACHE_MAINTAIN=TRUE
-# ENV SMUGMUG_API_KEY=
+ADD Gemfile .
+ADD Gemfile.lock .
+RUN bundle install --jobs=3 --retry=3 --system
 
-# This enables verbose logging while the site is rendered
-# ENV JEKYLL_LOG_LEVEL=debug
+ADD package.json .
+RUN npm install -g
 
-# Make a directory to work in
-RUN sudo mkdir /data
-RUN sudo chown travis:travis /data
+ENV USER_ID=1001
+ENV USER_NAME="nt"
+RUN useradd -u $USER_ID -U $USER_NAME
 
-# The following is run each time the container is "run"
-CMD echo "No command provided, you should be using run_dev.sh"
+RUN mkdir /srv/history-project && chown $USER_NAME:$USER_NAME /srv/history-project
+
+WORKDIR /srv/history-project
+USER $USER_NAME
+CMD gulp $1
