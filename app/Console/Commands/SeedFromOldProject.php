@@ -65,7 +65,12 @@ class SeedFromOldProject extends Command
         return self::SUCCESS;
     }
 
-    private function getModelOrNull(Document $doc, string $matter, Builder $query, string $attr = 'name'): ?Model
+    /**
+     * @template TModel of \Illuminate\Database\Eloquent\Model
+     * @param Builder<TModel> $query
+     * @return TModel|null
+     */
+    private function getModelOrNull(Document $doc, string $matter, Builder $query, string $attr = 'name')
     {
         return $doc->matter($matter)
             ? $query->firstOrCreate([$attr => $doc->matter($matter)])
