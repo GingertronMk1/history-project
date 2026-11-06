@@ -53,6 +53,7 @@ export default defineConfig({
             'resources/js/components/ui/*',
             'resources/js/routes/**',
             'resources/js/wayfinder/**',
+            'storage/app/private/history-project/**',
         ],
         options: {
             denyWarnings: true,
@@ -71,6 +72,7 @@ export default defineConfig({
             'composer.json',
             'resources/js/components/ui/*',
             'resources/views/mail/*',
+            'storage/app/private/history-project/**',
         ],
         sortTailwindcss: {
             functions: ['clsx', 'cn', 'cva'],
