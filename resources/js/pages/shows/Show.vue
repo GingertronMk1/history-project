@@ -8,10 +8,12 @@ import { show as playwrightShow } from '@/routes/playwrights';
 import { show as seasonShow } from '@/routes/seasons';
 import { index } from '@/routes/shows';
 import { show as venueShow } from '@/routes/venues';
+import { show as yearShow } from '@/routes/years';
 import type { ShowRecord } from '@/types/catalogue';
 
 const props = defineProps<{ show: ShowRecord }>();
 const relationships = computed(() => [
+    { label: 'Year', record: props.show.year, route: yearShow },
     { label: 'Company', record: props.show.company, route: companyShow },
     { label: 'Season', record: props.show.season, route: seasonShow },
     { label: 'Period', record: props.show.period, route: periodShow },

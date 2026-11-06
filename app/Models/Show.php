@@ -12,7 +12,8 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property string $title
- * @property string $year
+ * @property int $year_id
+ * @property-read Year|null $year
  * @property int $season_sort
  * @property string|null $description
  * @property int|null $company_id
@@ -28,11 +29,17 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $date_start
  * @property Carbon|null $date_end
  */
-#[Fillable(['title', 'year', 'season_sort', 'description', 'company_id', 'season_id', 'period_id', 'playwright_id', 'venue_id', 'date_start', 'date_end'])]
+#[Fillable(['title', 'year_id', 'season_sort', 'description', 'company_id', 'season_id', 'period_id', 'playwright_id', 'venue_id', 'date_start', 'date_end'])]
 class Show extends Model
 {
     /** @use HasFactory<ShowFactory> */
     use HasFactory;
+
+    /** @return BelongsTo<Year, $this> */
+    public function year(): BelongsTo
+    {
+        return $this->belongsTo(Year::class);
+    }
 
     /** @return BelongsTo<Company, $this> */
     public function company(): BelongsTo

@@ -16,6 +16,7 @@ export interface PaginatedRecords {
 }
 
 export interface ShowRecord extends CatalogueRecord {
+    year: CatalogueRecord | null;
     date_start: string | null;
     date_end: string | null;
     company: CatalogueRecord | null;

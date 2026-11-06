@@ -15,7 +15,7 @@ class ShowForm
         return $schema
             ->components([
                 TextInput::make('title')->required()->maxLength(255),
-                TextInput::make('year')->required()->maxLength(255)->helperText('Academic year, for example 25_26.'),
+                Select::make('year_id')->relationship('year', 'name')->searchable()->required()->exists('years', 'id'),
                 TextInput::make('season_sort')->integer()->minValue(0)->maxValue(4294967295)->required()->default(0),
                 Textarea::make('description')->columnSpanFull(),
                 Select::make('company_id')->relationship('company', 'name')->searchable()->exists('companies', 'id'),

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Show;
+use App\Models\Year;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,7 @@ class ShowFactory extends Factory
     {
         return [
             'title' => fake()->sentence(3),
-            'year' => '25_26',
+            'year_id' => Year::factory(),
             'description' => fake()->paragraph(),
         ];
     }

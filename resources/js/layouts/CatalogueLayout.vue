@@ -6,11 +6,13 @@ import { index as playwrights } from '@/routes/playwrights';
 import { index as seasons } from '@/routes/seasons';
 import { index as shows } from '@/routes/shows';
 import { index as venues } from '@/routes/venues';
+import { index as years } from '@/routes/years';
 
 defineProps<{ title: string }>();
 
 const navigation = [
     { label: 'Shows', route: shows() },
+    { label: 'Years', route: years() },
     { label: 'Companies', route: companies() },
     { label: 'Seasons', route: seasons() },
     { label: 'Periods', route: periods() },

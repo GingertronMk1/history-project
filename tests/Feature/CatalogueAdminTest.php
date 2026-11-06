@@ -15,6 +15,7 @@ use App\Models\Season;
 use App\Models\Show;
 use App\Models\User;
 use App\Models\Venue;
+use App\Models\Year;
 use Filament\Actions\DeleteAction;
 use Livewire\Livewire;
 
@@ -44,7 +45,7 @@ test('creates records through admin forms', function (string $model, string $plu
     $this->actingAs(User::factory()->create());
     $page = 'App\\Filament\\Resources\\'.ucfirst($plural).'\\Pages\\Create'.ucfirst($singular);
 
-    Livewire::test($page)->fillForm([$field => 'New archive record', 'description' => 'New description', ...($model === Show::class ? ['year' => '25_26'] : [])])
+    Livewire::test($page)->fillForm([$field => 'New archive record', 'description' => 'New description', ...($model === Show::class ? ['year_id' => Year::factory()->create()->id] : [])])
         ->call('create')->assertHasNoFormErrors()->assertRedirect();
 
     $this->assertDatabaseHas((new $model)->getTable(), [$field => 'New archive record', 'description' => 'New description']);
@@ -85,7 +86,7 @@ test('rejects an end date before the start date', function () {
 
     Livewire::test(CreateShow::class)->fillForm([
         'title' => 'Hamlet',
-        'year' => '25_26',
+        'year_id' => Year::factory()->create()->id,
         'date_start' => '2026-11-06',
         'date_end' => '2026-11-05',
     ])->call('create')->assertHasFormErrors(['date_end' => 'after_or_equal']);
@@ -102,7 +103,7 @@ test('saves show relationships and dates through the admin form', function () {
     $this->actingAs(User::factory()->create());
     $data = [
         'title' => 'Hamlet',
-        'year' => '25_26',
+        'year_id' => Year::factory()->create()->id,
         'company_id' => $company->id,
         'season_id' => $season->id,
         'period_id' => $period->id,
@@ -131,7 +132,7 @@ test('rejects nonexistent show relationships', function () {
 
     Livewire::test(CreateShow::class)->fillForm([
         'title' => 'Hamlet',
-        'year' => '25_26',
+        'year_id' => Year::factory()->create()->id,
         'company_id' => 999,
         'season_id' => 999,
         'period_id' => 999,
@@ -143,16 +144,17 @@ test('rejects nonexistent show relationships', function () {
 });
 
 test('saves and displays show year and season order', function () {
+    $year = Year::factory()->create(['name' => '24_25']);
     $this->actingAs(User::factory()->create());
 
     Livewire::test(CreateShow::class)->fillForm([
         'title' => 'A Winter Show',
-        'year' => '24_25',
+        'year_id' => $year->id,
         'season_sort' => 120,
     ])->call('create')->assertHasNoFormErrors()->assertRedirect();
 
     $show = Show::query()->sole();
-    $this->assertDatabaseHas('shows', ['id' => $show->id, 'year' => '24_25', 'season_sort' => 120]);
+    $this->assertDatabaseHas('shows', ['id' => $show->id, 'year_id' => $year->id, 'season_sort' => 120]);
     Livewire::test(ViewShow::class, ['record' => $show->id])
         ->assertSee('24_25')->assertSee('120');
     Livewire::test(ListShows::class)
@@ -160,31 +162,32 @@ test('saves and displays show year and season order', function () {
 });
 
 test('updates show year and season order', function () {
-    $show = Show::factory()->create(['year' => '24_25', 'season_sort' => 10]);
+    $show = Show::factory()->create(['season_sort' => 10]);
+    $year = Year::factory()->create();
     $this->actingAs(User::factory()->create());
 
     Livewire::test(EditShow::class, ['record' => $show->id])
-        ->fillForm(['year' => '25_26', 'season_sort' => 20])->call('save')->assertHasNoFormErrors();
+        ->fillForm(['year_id' => $year->id, 'season_sort' => 20])->call('save')->assertHasNoFormErrors();
 
-    $this->assertDatabaseHas('shows', ['id' => $show->id, 'year' => '25_26', 'season_sort' => 20]);
+    $this->assertDatabaseHas('shows', ['id' => $show->id, 'year_id' => $year->id, 'season_sort' => 20]);
 });
 
 test('validates the required show year', function (mixed $year, string $rule) {
     $this->actingAs(User::factory()->create());
 
-    Livewire::test(CreateShow::class)->fillForm(['title' => 'Hamlet', 'year' => $year])
-        ->call('create')->assertHasFormErrors(['year' => $rule]);
+    Livewire::test(CreateShow::class)->fillForm(['title' => 'Hamlet', 'year_id' => $year])
+        ->call('create')->assertHasFormErrors(['year_id' => $rule]);
 
     $this->assertDatabaseCount('shows', 0);
 })->with([
     'missing year' => [null, 'required'],
-    'year too long' => [str_repeat('a', 256), 'max'],
+    'nonexistent year' => [999, 'in'],
 ]);
 
 test('rejects invalid season sort values', function (mixed $sort, string $rule) {
     $this->actingAs(User::factory()->create());
 
-    Livewire::test(CreateShow::class)->fillForm(['title' => 'Hamlet', 'year' => '25_26', 'season_sort' => $sort])
+    Livewire::test(CreateShow::class)->fillForm(['title' => 'Hamlet', 'year_id' => Year::factory()->create()->id, 'season_sort' => $sort])
         ->call('create')->assertHasFormErrors(['season_sort' => $rule]);
 
     $this->assertDatabaseCount('shows', 0);

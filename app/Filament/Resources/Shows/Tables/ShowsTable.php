@@ -17,7 +17,7 @@ class ShowsTable
             ->defaultSort('title')
             ->columns([
                 TextColumn::make('title')->searchable()->sortable(),
-                TextColumn::make('year')->searchable()->sortable(),
+                TextColumn::make('year.name')->label('Year')->searchable()->sortable(),
                 TextColumn::make('season_sort')->sortable(),
                 TextColumn::make('company.name')->sortable(),
                 TextColumn::make('venue.name')->sortable(),
