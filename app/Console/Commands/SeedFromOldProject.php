@@ -13,7 +13,6 @@ use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Spatie\YamlFrontMatter\Document;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
@@ -67,7 +66,8 @@ class SeedFromOldProject extends Command
 
     /**
      * @template TModel of \Illuminate\Database\Eloquent\Model
-     * @param Builder<TModel> $query
+     *
+     * @param  Builder<TModel>  $query
      * @return TModel|null
      */
     private function getModelOrNull(Document $doc, string $matter, Builder $query, string $attr = 'name')

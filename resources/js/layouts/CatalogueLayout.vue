@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { home } from '@/routes';
 import { index as companies } from '@/routes/companies';
 import { index as periods } from '@/routes/periods';
 import { index as playwrights } from '@/routes/playwrights';
@@ -28,7 +29,7 @@ const navigation = [
         <Head :title="title" />
         <header class="border-b border-stone-200 dark:border-stone-800">
             <div class="mx-auto flex max-w-6xl flex-col gap-5 px-6 py-6">
-                <Link :href="shows()" class="text-xl font-semibold"
+                <Link :href="home()" class="text-xl font-semibold"
                     >The History Project</Link
                 >
                 <nav aria-label="Archive" class="flex flex-wrap gap-5 text-sm">
