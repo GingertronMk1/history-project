@@ -23,14 +23,15 @@ class ScanOldProject extends Command
         $this->withProgressBar($files, function (string $file) use (&$keys) {
             try {
                 $info = YamlFrontMatter::parse(Storage::disk('local')->get($file));
-                $keys = array_unique(array_merge($keys, array_keys($info->matter())));
+                foreach ($info->matter() as $key => $value) {
+                    $keys[$key] ??= [];
+                    $keys[$key][$value] = ($keys[$key][$value] ?? 0) + 1;
+                }
             } catch (\Exception $e) {
                 Log::info($e->getMessage());
             }
         });
         $this->newLine();
-        sort($keys);
-        $keys = array_filter($keys, fn (string $key): bool => ! empty($key));
-        $this->output->listing($keys);
+        $this->line(json_encode($keys, JSON_PRETTY_PRINT));
     }
 }
