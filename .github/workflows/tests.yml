@@ -31,6 +31,18 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Cache Composer dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: vendor
+          key: ${{ runner.os }}-${{ runner.arch }}-php-8.4-vendor-${{ hashFiles('composer.json', 'composer.lock') }}
+
+      - name: Cache Node dependencies
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ runner.arch }}-node-22-node-modules-${{ hashFiles('package.json', 'package-lock.json') }}
+
       - name: Setup Application
         run: composer setup
 
