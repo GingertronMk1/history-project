@@ -24,6 +24,9 @@ class ScanOldProject extends Command
             try {
                 $info = YamlFrontMatter::parse(Storage::disk('local')->get($file));
                 foreach ($info->matter() as $key => $value) {
+                    if (!is_string($key) || !(is_string($value) || is_numeric($value))) {
+                        continue;
+                    }
                     $keys[$key] ??= [];
                     $keys[$key][$value] = ($keys[$key][$value] ?? 0) + 1;
                 }
@@ -33,5 +36,24 @@ class ScanOldProject extends Command
         });
         $this->newLine();
         $this->line(json_encode($keys, JSON_PRETTY_PRINT));
+        ksort($keys);
+        foreach ($keys as $key => $values) {
+            $filteredVals = array_filter($values, fn($v) => $v > 2);
+            if (empty($filteredVals)) {
+                continue;
+            }
+            $this->line($key);
+            arsort($values);
+            foreach ($filteredVals as $valueName => $valueCount) {
+                $this->info(
+                    sprintf(
+                        "- %s appears in %s %d times",
+                        $valueName,
+                        $key,
+                        $valueCount
+                    )
+                );
+            }
+        }
     }
 }
