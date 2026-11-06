@@ -9,3 +9,16 @@
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 }
+
+@theme {
+    --color-archive-background: #17121d;
+    --color-archive-foreground: #f8f4ed;
+    --color-archive-header: #21172b;
+    --color-archive-hero: #100e12;
+    --color-archive-surface: #211a28;
+    --color-archive-surface-hover: #2b2234;
+    --color-archive-teal: #115760;
+    --color-archive-burgundy: #601123;
+    --color-brand-purple: #9570ae;
+    --color-brand-orange: #f5a623;
+}

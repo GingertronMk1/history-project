@@ -28,34 +28,44 @@ const relationships = computed(() => [
 
 <template>
     <CatalogueLayout :title="show.title ?? 'Show'">
-        <Link :href="index()" class="text-sm underline">All shows</Link>
-        <p class="whitespace-pre-line text-stone-600 dark:text-stone-400">
+        <Link
+            :href="index()"
+            class="self-start text-sm text-amber-300 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400"
+            >All shows</Link
+        >
+        <p
+            class="max-w-4xl text-base leading-relaxed whitespace-pre-line text-white/65"
+        >
             {{ show.description || 'No description yet.' }}
         </p>
-        <dl class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <dl
+            class="divide-y divide-white/10 border border-white/10 bg-archive-surface"
+        >
             <div
                 v-for="relationship in relationships"
                 :key="relationship.label"
-                class="flex flex-col gap-1"
+                class="flex flex-col gap-2 px-5 py-5 sm:flex-row sm:gap-8 sm:px-7"
             >
-                <dt class="text-sm text-stone-500 dark:text-stone-400">
+                <dt class="shrink-0 text-sm text-white/45 sm:w-36">
                     {{ relationship.label }}
                 </dt>
-                <dd>
+                <dd class="min-w-0 text-sm leading-relaxed wrap-anywhere">
                     <Link
                         v-if="relationship.record"
                         :href="relationship.route(relationship.record.id)"
-                        class="underline"
+                        class="text-amber-300 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400"
                         >{{ relationship.record.name }}</Link
                     >
                     <span v-else>Not recorded</span>
                 </dd>
             </div>
-            <div class="flex flex-col gap-1">
-                <dt class="text-sm text-stone-500 dark:text-stone-400">
+            <div
+                class="flex flex-col gap-2 px-5 py-5 sm:flex-row sm:gap-8 sm:px-7"
+            >
+                <dt class="shrink-0 text-sm text-white/45 sm:w-36">
                     Performance dates
                 </dt>
-                <dd>
+                <dd class="min-w-0 text-sm leading-relaxed wrap-anywhere">
                     {{ show.date_start || 'Not recorded'
                     }}<template v-if="show.date_end">
                         – {{ show.date_end }}</template

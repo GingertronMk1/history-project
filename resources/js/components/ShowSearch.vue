@@ -3,13 +3,9 @@ import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { index } from '@/routes/shows';
 
-const props = withDefaults(
-    defineProps<{ initialSearch?: string; dark?: boolean }>(),
-    {
-        initialSearch: '',
-        dark: false,
-    },
-);
+const props = withDefaults(defineProps<{ initialSearch?: string }>(), {
+    initialSearch: '',
+});
 const query = ref(props.initialSearch);
 
 function search() {
@@ -34,16 +30,11 @@ function search() {
             aria-label="Search show titles"
             placeholder="Search the shows…"
             maxlength="200"
-            class="min-w-0 flex-1 rounded-sm border px-4 py-3 text-sm outline-offset-4 focus-visible:outline-2 focus-visible:outline-amber-400"
-            :class="
-                dark
-                    ? 'border-white/20 bg-white/5 text-white placeholder:text-white/45'
-                    : 'border-stone-300 bg-white text-stone-900 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100'
-            "
+            class="min-w-0 flex-1 rounded-sm border border-white/20 bg-white/5 px-4 py-3 text-sm text-archive-foreground outline-offset-4 placeholder:text-white/45 focus-visible:outline-2 focus-visible:outline-amber-400"
         />
         <button
             type="submit"
-            class="rounded-sm bg-amber-400 px-5 py-3 text-sm font-semibold text-stone-950 transition hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400"
+            class="rounded-sm bg-amber-400 px-5 py-3 text-sm font-semibold text-archive-background transition hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400"
         >
             Search
         </button>

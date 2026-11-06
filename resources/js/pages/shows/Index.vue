@@ -13,10 +13,14 @@ defineProps<{ shows: PaginatedRecords; search: string }>();
 <template>
     <CatalogueLayout title="Shows">
         <ShowSearch :key="search" :initial-search="search" />
-        <p v-if="search" class="text-sm text-stone-600 dark:text-stone-400">
+        <p v-if="search" class="text-sm text-white/60">
             {{ shows.total }} {{ shows.total === 1 ? 'result' : 'results' }} for
             “{{ search }}”.
-            <Link :href="index()" class="underline">Clear search</Link>
+            <Link
+                :href="index()"
+                class="text-amber-300 underline-offset-4 hover:underline"
+                >Clear search</Link
+            >
         </p>
         <CatalogueList
             :records="shows"

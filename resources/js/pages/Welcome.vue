@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import ShowSearch from '@/components/ShowSearch.vue';
-import { home } from '@/routes';
+import SiteHeader from '@/components/SiteHeader.vue';
+import SiteFooter from '@/components/SiteFooter.vue';
 import { index as companies } from '@/routes/companies';
 import { index as periods } from '@/routes/periods';
 import { index as playwrights } from '@/routes/playwrights';
@@ -31,12 +32,6 @@ defineProps<{
     featuredShows: FeaturedShow[];
 }>();
 
-const navigation = [
-    { label: 'Shows', route: shows() },
-    { label: 'Years', route: years() },
-    { label: 'Playwrights', route: playwrights() },
-    { label: 'Venues', route: venues() },
-];
 const archive = [
     {
         label: 'Years',
@@ -90,7 +85,7 @@ const number = (value: number) => value.toLocaleString('en-GB');
 
 <template>
     <div
-        class="min-h-screen bg-[#17121d] text-[#f8f4ed] selection:bg-amber-400 selection:text-stone-950"
+        class="min-h-screen bg-archive-background text-archive-foreground selection:bg-amber-400 selection:text-stone-950"
     >
         <Head title="The Nottingham New Theatre History Project">
             <meta
@@ -98,69 +93,11 @@ const number = (value: number) => value.toLocaleString('en-GB');
                 content="Explore the Nottingham New Theatre archive: shows, playwrights, venues and the years of theatre that connect them."
             />
         </Head>
-        <a
-            href="#main"
-            class="sr-only z-50 bg-amber-400 p-4 text-stone-950 focus:not-sr-only focus:absolute"
-            >Skip to content</a
-        >
-        <header class="border-b border-white/10 bg-[#21172b]">
-            <div
-                class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-6 py-7 lg:px-10"
-            >
-                <Link
-                    :href="home()"
-                    class="flex items-center gap-4"
-                    aria-label="New Theatre History Project home"
-                >
-                    <svg
-                        viewBox="0 0 64 64"
-                        class="size-12 shrink-0"
-                        aria-hidden="true"
-                    >
-                        <rect
-                            x="0"
-                            y="22"
-                            width="42"
-                            height="42"
-                            fill="#9570ae"
-                        />
-                        <rect
-                            x="42"
-                            y="0"
-                            width="22"
-                            height="22"
-                            fill="#f5a623"
-                        />
-                    </svg>
-                    <span class="flex flex-col gap-1">
-                        <span
-                            class="text-[10px] font-semibold tracking-[0.19em] uppercase sm:text-xs"
-                            >The Nottingham New Theatre</span
-                        >
-                        <span
-                            class="text-2xl font-semibold tracking-tight sm:text-3xl"
-                            >History Project</span
-                        >
-                    </span>
-                </Link>
-                <nav
-                    aria-label="Main navigation"
-                    class="flex flex-wrap gap-x-7 gap-y-3 text-sm text-white/75"
-                >
-                    <Link
-                        v-for="item in navigation"
-                        :key="item.label"
-                        :href="item.route"
-                        class="transition hover:text-amber-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400"
-                        >{{ item.label }}</Link
-                    >
-                </nav>
-            </div>
-        </header>
+        <SiteHeader />
 
         <main id="main">
             <section
-                class="overflow-hidden bg-[#100e12]"
+                class="overflow-hidden bg-archive-hero"
                 aria-labelledby="archive-heading"
             >
                 <div
@@ -287,11 +224,11 @@ const number = (value: number) => value.toLocaleString('en-GB');
                         </dl>
                         <Link
                             :href="years()"
-                            class="flex items-center justify-between rounded-sm bg-amber-400 px-5 py-4 font-semibold text-[#17121d] transition hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400"
+                            class="flex items-center justify-between rounded-sm bg-amber-400 px-5 py-4 font-semibold text-archive-background transition hover:bg-amber-300 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-amber-400"
                             >Explore the archives
                             <span aria-hidden="true">→</span></Link
                         >
-                        <ShowSearch dark />
+                        <ShowSearch />
                     </div>
                 </div>
             </section>
@@ -331,7 +268,7 @@ const number = (value: number) => value.toLocaleString('en-GB');
                         v-for="category in archive"
                         :key="category.key"
                         :href="category.route"
-                        class="group flex flex-col gap-4 bg-[#211a28] p-6 transition hover:bg-[#2b2234] focus-visible:z-10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-amber-400"
+                        class="group flex flex-col gap-4 bg-archive-surface p-6 transition hover:bg-archive-surface-hover focus-visible:z-10 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-amber-400"
                     >
                         <span class="flex items-center justify-between"
                             ><span
@@ -357,7 +294,7 @@ const number = (value: number) => value.toLocaleString('en-GB');
 
             <div class="grid md:grid-cols-2">
                 <section
-                    class="bg-[#115760] px-6 py-14 lg:px-10"
+                    class="bg-archive-teal px-6 py-14 lg:px-10"
                     aria-labelledby="alumni-heading"
                 >
                     <div
@@ -390,7 +327,7 @@ const number = (value: number) => value.toLocaleString('en-GB');
                     </div>
                 </section>
                 <section
-                    class="bg-[#601123] px-6 py-14 lg:px-10"
+                    class="bg-archive-burgundy px-6 py-14 lg:px-10"
                     aria-labelledby="story-heading"
                 >
                     <div
@@ -433,15 +370,6 @@ const number = (value: number) => value.toLocaleString('en-GB');
             </div>
         </main>
 
-        <footer
-            class="mx-auto flex max-w-7xl flex-col justify-between gap-5 px-6 py-9 text-sm text-white/45 sm:flex-row lg:px-10"
-        >
-            <p>Nottingham New Theatre · A history made together.</p>
-            <a
-                href="mailto:history@newtheatre.org.uk"
-                class="underline-offset-4 hover:text-white hover:underline"
-                >history@newtheatre.org.uk</a
-            >
-        </footer>
+        <SiteFooter />
     </div>
 </template>
