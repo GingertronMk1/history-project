@@ -12,6 +12,8 @@ class ShowInfolist
         return $schema
             ->components([
                 TextEntry::make('title'),
+                TextEntry::make('year'),
+                TextEntry::make('season_sort'),
                 TextEntry::make('description')->placeholder('No description yet.')->columnSpanFull(),
                 TextEntry::make('company.name')->label('Company')->placeholder('Not recorded'),
                 TextEntry::make('season.name')->label('Season')->placeholder('Not recorded'),

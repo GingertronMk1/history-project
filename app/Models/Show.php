@@ -12,6 +12,8 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property string $title
+ * @property string $year
+ * @property int $season_sort
  * @property string|null $description
  * @property int|null $company_id
  * @property-read Company|null $company
@@ -26,7 +28,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $date_start
  * @property Carbon|null $date_end
  */
-#[Fillable(['title', 'description', 'company_id', 'season_id', 'period_id', 'playwright_id', 'venue_id', 'date_start', 'date_end'])]
+#[Fillable(['title', 'year', 'season_sort', 'description', 'company_id', 'season_id', 'period_id', 'playwright_id', 'venue_id', 'date_start', 'date_end'])]
 class Show extends Model
 {
     /** @use HasFactory<ShowFactory> */
@@ -65,6 +67,6 @@ class Show extends Model
     /** @return array<string, string> */
     protected function casts(): array
     {
-        return ['date_start' => 'date:Y-m-d', 'date_end' => 'date:Y-m-d'];
+        return ['season_sort' => 'integer', 'date_start' => 'date:Y-m-d', 'date_end' => 'date:Y-m-d'];
     }
 }

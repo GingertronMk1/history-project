@@ -11,9 +11,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property int $id
  * @property string $name
+ * @property string $colour
  * @property string|null $description
  */
-#[Fillable(['name', 'description'])]
+#[Fillable(['name', 'description', 'colour'])]
 class Season extends Model
 {
     /** @use HasFactory<SeasonFactory> */

@@ -19,6 +19,7 @@ class ShowFactory extends Factory
     {
         return [
             'title' => fake()->sentence(3),
+            'year' => '25_26',
             'description' => fake()->paragraph(),
         ];
     }
