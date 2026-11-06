@@ -78,7 +78,7 @@ test('deletes records through admin actions', function (string $model, string $p
 
     Livewire::test($page, ['record' => $record->id])->callAction(DeleteAction::class)->assertRedirect();
 
-    $this->assertModelMissing($record);
+    $this->assertSoftDeleted($record);
 })->with('catalogue entities');
 
 test('rejects an end date before the start date', function () {

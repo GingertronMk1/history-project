@@ -84,5 +84,7 @@ test('preserves shows when a supporting record is deleted', function (string $mo
     $record->delete();
 
     $this->assertModelExists($show);
-    $this->assertDatabaseHas('shows', ['id' => $show->id, "{$singular}_id" => null]);
+    $this->assertDatabaseHas('shows', ['id' => $show->id, "{$singular}_id" => $record->id]);
+    $this->assertSoftDeleted($record);
+    expect($show->fresh()->getRelation($singular))->toBeNull();
 })->with('supporting entities');

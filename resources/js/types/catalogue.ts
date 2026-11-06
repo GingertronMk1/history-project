@@ -1,5 +1,5 @@
 export interface CatalogueRecord {
-    id: number;
+    id: string;
     name?: string;
     title?: string;
     description: string | null;

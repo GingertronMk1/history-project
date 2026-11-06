@@ -4,27 +4,30 @@ namespace App\Models;
 
 use Database\Factories\ShowFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int $id
+ * @property string $id
+ * @property Carbon|null $deleted_at
  * @property string $title
- * @property int $year_id
+ * @property string $year_id
  * @property-read Year|null $year
  * @property int $season_sort
  * @property string|null $description
- * @property int|null $company_id
+ * @property string|null $company_id
  * @property-read Company|null $company
- * @property int|null $season_id
+ * @property string|null $season_id
  * @property-read Season|null $season
- * @property int|null $period_id
+ * @property string|null $period_id
  * @property-read Period|null $period
- * @property int|null $playwright_id
+ * @property string|null $playwright_id
  * @property-read Playwright|null $playwright
- * @property int|null $venue_id
+ * @property string|null $venue_id
  * @property-read Venue|null $venue
  * @property Carbon|null $date_start
  * @property Carbon|null $date_end
@@ -33,7 +36,7 @@ use Illuminate\Support\Carbon;
 class Show extends Model
 {
     /** @use HasFactory<ShowFactory> */
-    use HasFactory;
+    use HasFactory, HasUuids, SoftDeletes;
 
     /** @var list<string> */
     protected $with = ['year', 'company', 'season', 'period', 'playwright', 'venue'];

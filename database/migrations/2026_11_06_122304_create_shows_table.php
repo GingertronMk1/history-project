@@ -18,7 +18,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('shows', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('title');
             $table->text('description')->nullable();
             $table->foreignIdFor(Year::class)->constrained();
@@ -31,6 +31,7 @@ return new class extends Migration
             $table->date('date_end')->nullable();
             $table->unsignedInteger('season_sort')->default(0)->index();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

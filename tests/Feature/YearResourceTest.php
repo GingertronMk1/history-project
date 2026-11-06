@@ -112,5 +112,5 @@ test('deletes a year', function () {
 
     Livewire::test(EditYear::class, ['record' => $year->id])->callAction(DeleteAction::class)->assertRedirect();
 
-    $this->assertModelMissing($year);
+    $this->assertSoftDeleted($year);
 });

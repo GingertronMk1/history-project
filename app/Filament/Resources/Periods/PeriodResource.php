@@ -15,7 +15,10 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+/** @extends resource<Period> */
 class PeriodResource extends Resource
 {
     protected static ?string $model = Period::class;
@@ -37,6 +40,13 @@ class PeriodResource extends Resource
     public static function table(Table $table): Table
     {
         return PeriodsTable::configure($table);
+    }
+
+    /** @return Builder<Period> */
+    public static function getRecordRouteBindingEloquentQuery(): Builder
+    {
+        return parent::getRecordRouteBindingEloquentQuery()
+            ->withoutGlobalScopes([SoftDeletingScope::class]);
     }
 
     public static function getRelations(): array

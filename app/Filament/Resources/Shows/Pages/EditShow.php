@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Shows\Pages;
 
 use App\Filament\Resources\Shows\ShowResource;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\RestoreAction;
 use Filament\Actions\ViewAction;
 use Filament\Resources\Pages\EditRecord;
 
@@ -16,6 +17,7 @@ class EditShow extends EditRecord
         return [
             ViewAction::make(),
             DeleteAction::make(),
+            RestoreAction::make(),
         ];
     }
 }

@@ -15,7 +15,10 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+/** @extends resource<Year> */
 class YearResource extends Resource
 {
     protected static ?string $model = Year::class;
@@ -37,6 +40,13 @@ class YearResource extends Resource
     public static function table(Table $table): Table
     {
         return YearsTable::configure($table);
+    }
+
+    /** @return Builder<Year> */
+    public static function getRecordRouteBindingEloquentQuery(): Builder
+    {
+        return parent::getRecordRouteBindingEloquentQuery()
+            ->withoutGlobalScopes([SoftDeletingScope::class]);
     }
 
     public static function getRelations(): array
