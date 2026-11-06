@@ -18,7 +18,7 @@ class ShowController extends Controller
     public function show(Show $show): Response
     {
         return Inertia::render('shows/Show', [
-            'show' => $show->load(['year', 'company', 'season', 'period', 'playwright', 'venue']),
+            'show' => $show,
         ]);
     }
 }

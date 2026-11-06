@@ -35,6 +35,9 @@ class Show extends Model
     /** @use HasFactory<ShowFactory> */
     use HasFactory;
 
+    /** @var list<string> */
+    protected $with = ['year', 'company', 'season', 'period', 'playwright', 'venue'];
+
     /** @return BelongsTo<Year, $this> */
     public function year(): BelongsTo
     {
