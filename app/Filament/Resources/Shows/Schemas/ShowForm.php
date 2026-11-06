@@ -7,6 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 
 class ShowForm
 {
@@ -15,7 +16,7 @@ class ShowForm
         return $schema
             ->components([
                 TextInput::make('title')->required()->maxLength(255),
-                Select::make('year_id')->relationship('year', 'name')->searchable()->required()->exists('years', 'id'),
+                Select::make('year_id')->relationship('year', 'name', modifyQueryUsing: fn (Builder $query): Builder => $query->orderBy('year_start')->orderBy('id'))->searchable()->required()->exists('years', 'id'),
                 TextInput::make('season_sort')->integer()->minValue(0)->maxValue(4294967295)->required()->default(0),
                 Textarea::make('description')->columnSpanFull(),
                 Select::make('company_id')->relationship('company', 'name')->searchable()->exists('companies', 'id'),

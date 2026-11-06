@@ -11,7 +11,7 @@ class YearController extends Controller
     public function index(): Response
     {
         return Inertia::render('years/Index', [
-            'years' => Year::query()->withCount('shows')->orderBy('name')->orderBy('id')->paginate(24),
+            'years' => Year::query()->withCount('shows')->paginate(24),
         ]);
     }
 

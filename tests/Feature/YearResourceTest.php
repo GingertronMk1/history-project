@@ -32,10 +32,10 @@ test('renders year administration pages', function () {
 test('creates a year with an optional description', function () {
     $this->actingAs(User::factory()->create());
 
-    Livewire::test(CreateYear::class)->fillForm(['name' => '25_26', 'description' => null])
+    Livewire::test(CreateYear::class)->fillForm(['name' => '25_26', 'year_start' => 2025, 'description' => null])
         ->call('create')->assertHasNoFormErrors()->assertRedirect();
 
-    $this->assertDatabaseHas('years', ['name' => '25_26', 'description' => null]);
+    $this->assertDatabaseHas('years', ['name' => '25_26', 'year_start' => 2025, 'description' => null]);
 });
 
 test('updates a year while keeping its name', function () {
@@ -60,10 +60,10 @@ test('renames a year', function () {
 });
 
 test('displays year names and descriptions', function () {
-    $year = Year::factory()->create(['name' => '25_26', 'description' => 'A year of theatre']);
+    $year = Year::factory()->create(['name' => '25_26', 'year_start' => 2025, 'description' => 'A year of theatre']);
     $this->actingAs(User::factory()->create());
 
-    Livewire::test(ViewYear::class, ['record' => $year->id])->assertSee('25_26')->assertSee('A year of theatre');
+    Livewire::test(ViewYear::class, ['record' => $year->id])->assertSee('25_26')->assertSee('2025')->assertSee('A year of theatre');
 });
 
 test('searches years by name', function () {

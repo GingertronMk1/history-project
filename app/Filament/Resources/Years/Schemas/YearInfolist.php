@@ -12,6 +12,7 @@ class YearInfolist
         return $schema
             ->components([
                 TextEntry::make('name'),
+                TextEntry::make('year_start')->label('Start year'),
                 TextEntry::make('description')->placeholder('No description yet.')->columnSpanFull(),
             ]);
     }

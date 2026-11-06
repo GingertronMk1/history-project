@@ -17,9 +17,10 @@ class YearsTable
     public static function configure(Table $table): Table
     {
         return $table
-            ->defaultSort('name')
+            ->defaultSort('year_start')
             ->columns([
-                TextColumn::make('name')->searchable()->sortable(),
+                TextColumn::make('name')->searchable()->sortable(['year_start']),
+                TextColumn::make('year_start')->label('Start year')->sortable(),
             ])
             ->filters([
                 TrashedFilter::make(),

@@ -10,9 +10,9 @@ beforeEach(function () {
 });
 
 test('lists years with show counts and pagination', function () {
-    $year = Year::factory()->create(['name' => '00_01']);
+    $year = Year::factory()->create(['name' => '99_00', 'year_start' => 1999]);
     Show::factory()->for($year)->create();
-    Year::factory()->count(24)->sequence(fn (Sequence $sequence): array => ['name' => 'Year '.$sequence->index])->create();
+    Year::factory()->count(24)->sequence(fn (Sequence $sequence): array => ['name' => 'Year '.$sequence->index, 'year_start' => 2000 + $sequence->index])->create();
 
     $this->get(route('years.index'))->assertOk()->assertInertia(fn (Assert $page) => $page
         ->component('years/Index')->has('years.data', 24)
