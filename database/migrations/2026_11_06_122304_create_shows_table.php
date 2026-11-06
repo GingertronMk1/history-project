@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
+            $table->string('year')->index();
             $table->foreignId('company_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('season_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('period_id')->nullable()->constrained()->nullOnDelete();
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->foreignId('venue_id')->nullable()->constrained()->nullOnDelete();
             $table->date('date_start')->nullable();
             $table->date('date_end')->nullable();
+            $table->unsignedInteger('season_sort')->default(0)->index();
             $table->timestamps();
         });
     }
