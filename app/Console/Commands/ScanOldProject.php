@@ -28,7 +28,7 @@ class ScanOldProject extends Command
                         continue;
                     }
                     $keys[$key] ??= [];
-                    $keys[$key][$value] = ($keys[$key][$value] ?? 0) + 1;
+                    $keys[$key][(string) $value] = ($keys[$key][(string) $value] ?? 0) + 1;
                 }
             } catch (\Exception $e) {
                 Log::info($e->getMessage());
