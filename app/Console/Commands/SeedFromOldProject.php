@@ -12,7 +12,6 @@ use App\Models\Year;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
