@@ -21,12 +21,12 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->foreignIdFor(Year::class)->constrained();
-            $table->foreignIdFor(Company::class)->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(Season::class)->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(Period::class)->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(Playwright::class)->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(Venue::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(Year::class);
+            $table->foreignIdFor(Company::class)->nullable();
+            $table->foreignIdFor(Season::class)->nullable();
+            $table->foreignIdFor(Period::class)->nullable();
+            $table->foreignIdFor(Playwright::class)->nullable();
+            $table->foreignIdFor(Venue::class)->nullable();
             $table->date('date_start')->nullable();
             $table->date('date_end')->nullable();
             $table->unsignedInteger('season_sort')->default(0)->index();
