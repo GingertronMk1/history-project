@@ -12,7 +12,10 @@ use App\Models\Year;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Spatie\YamlFrontMatter\Document;
 use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 #[Signature('app:seed-from-old-project')]
@@ -31,11 +34,11 @@ class SeedFromOldProject extends Command
                 $data = YamlFrontMatter::parse(Storage::disk('local')->get($file));
                 $yearTitle = preg_replace('/.*\/(\d\d_\d\d)\/.*/', '$1', $file);
                 $year = Year::query()->firstOrCreate(['name' => $yearTitle]);
-                $company = $data->matter('company') ? Company::query()->firstOrCreate(['name' => $data->matter('company')]) : null;
-                $season = $data->matter('season') ? Season::query()->firstOrCreate(['name' => $data->matter('season')]) : null;
-                $period = $data->matter('period') ? Period::query()->firstOrCreate(['name' => $data->matter('period')]) : null;
-                $playwright = $data->matter('playwright') ? Playwright::query()->firstOrCreate(['name' => $data->matter('playwright')]) : null;
-                $venue = $data->matter('venue') ? Venue::query()->firstOrCreate(['name' => $data->matter('venue')]) : null;
+                $company = $this->getModelOrNull($data, 'company', Company::query());
+                $season = $this->getModelOrNull($data, 'season', Season::query());
+                $period = $this->getModelOrNull($data, 'period', Period::query());
+                $playwright = $this->getModelOrNull($data, 'playwright', Playwright::query());
+                $venue = $this->getModelOrNull($data, 'venue', Venue::query());
                 Show::query()->create([
                     'title' => $data->matter('title'),
                     'description' => $data->body(),
@@ -60,5 +63,12 @@ class SeedFromOldProject extends Command
         }
 
         return self::SUCCESS;
+    }
+
+    private function getModelOrNull(Document $doc, string $matter, Builder $query, string $attr = 'name'): ?Model
+    {
+        return $doc->matter($matter)
+            ? $query->firstOrCreate([$attr => $doc->matter($matter)])
+            : null;
     }
 }
