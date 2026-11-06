@@ -53,6 +53,7 @@ class ScanOldProject extends Command
                 );
             }
         }
+
         return self::SUCCESS;
     }
 }
