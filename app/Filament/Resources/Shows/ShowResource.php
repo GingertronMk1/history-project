@@ -20,7 +20,7 @@ class ShowResource extends Resource
 {
     protected static ?string $model = Show::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTicket;
 
     protected static ?string $recordTitleAttribute = 'title';
 

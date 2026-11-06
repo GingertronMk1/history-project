@@ -20,7 +20,7 @@ class PeriodResource extends Resource
 {
     protected static ?string $model = Period::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClock;
 
     protected static ?string $recordTitleAttribute = 'name';
 
