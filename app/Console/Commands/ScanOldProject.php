@@ -44,6 +44,7 @@ class ScanOldProject extends Command
             }
             $this->line($key);
             arsort($values);
+            continue;
             foreach ($filteredVals as $valueName => $valueCount) {
                 $this->info(
                     sprintf(
