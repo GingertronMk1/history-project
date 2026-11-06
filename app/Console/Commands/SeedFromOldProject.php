@@ -27,12 +27,20 @@ class SeedFromOldProject extends Command
     public function handle(): int
     {
         $errors = [];
+        $currentYear = now()->year;
         $files = Storage::disk('local')->files('history-project/_shows', true);
-        $this->withProgressBar($files, function (string $file) use (&$errors) {
+        $this->withProgressBar($files, function (string $file) use (&$errors, $currentYear) {
             try {
                 $data = YamlFrontMatter::parse(Storage::disk('local')->get($file));
                 $yearTitle = preg_replace('/.*\/(\d\d_\d\d)\/.*/', '$1', $file);
-                $year = Year::query()->firstOrCreate(['name' => $yearTitle]);
+                [$yearNumber] = explode('_', $yearTitle);
+                $yearTitle = str_replace('_', '/', $yearTitle);
+
+                $yearNumber = intval("20{$yearNumber}") > $currentYear
+                    ? "19{$yearNumber}"
+                    : "20{$yearNumber}";
+
+                $year = Year::query()->firstOrCreate(['name' => $yearTitle, 'year_start' => $yearNumber]);
                 $company = $this->getModelOrNull($data, 'company', Company::query());
                 $season = $this->getModelOrNull($data, 'season', Season::query());
                 $period = $this->getModelOrNull($data, 'period', Period::query());

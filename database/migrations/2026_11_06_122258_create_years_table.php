@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('years', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name')->unique();
+            $table->unsignedInteger('year_start')->index();
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
