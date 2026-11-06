@@ -16,7 +16,7 @@ class ScanOldProject extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $keys = [];
         $files = Storage::disk('local')->files('history-project/_shows', true);
@@ -35,7 +35,6 @@ class ScanOldProject extends Command
             }
         });
         $this->newLine();
-        $this->line(json_encode($keys, JSON_PRETTY_PRINT));
         ksort($keys);
         foreach ($keys as $key => $values) {
             $filteredVals = array_filter($values, fn ($v) => $v > 2);
@@ -54,5 +53,6 @@ class ScanOldProject extends Command
                 );
             }
         }
+        return self::SUCCESS;
     }
 }
