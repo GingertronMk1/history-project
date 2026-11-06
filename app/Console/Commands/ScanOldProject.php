@@ -20,7 +20,7 @@ class ScanOldProject extends Command
     {
         $keys = [];
         $files = Storage::disk('local')->files('history-project/_shows', true);
-        $this->withProgressBar($files, function ($file) use (&$keys) {
+        $this->withProgressBar($files, function (string $file) use (&$keys) {
             try {
                 $info = YamlFrontMatter::parse(Storage::disk('local')->get($file));
                 $keys = array_unique(array_merge($keys, array_keys($info->matter())));
@@ -30,7 +30,7 @@ class ScanOldProject extends Command
         });
         $this->newLine();
         sort($keys);
-        $keys = array_filter($keys, fn (string $key) => ! empty($key));
+        $keys = array_filter($keys, fn (string $key): bool => ! empty($key));
         $this->output->listing($keys);
     }
 }
