@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Filament\Resources\Periods;
+
+use App\Filament\Resources\Periods\Pages\CreatePeriod;
+use App\Filament\Resources\Periods\Pages\EditPeriod;
+use App\Filament\Resources\Periods\Pages\ListPeriods;
+use App\Filament\Resources\Periods\Pages\ViewPeriod;
+use App\Filament\Resources\Periods\Schemas\PeriodForm;
+use App\Filament\Resources\Periods\Schemas\PeriodInfolist;
+use App\Filament\Resources\Periods\Tables\PeriodsTable;
+use App\Models\Period;
+use BackedEnum;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+/** @extends resource<Period> */
+class PeriodResource extends Resource
+{
+    protected static ?string $model = Period::class;
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClock;
+
+    protected static ?string $recordTitleAttribute = 'name';
+
+    public static function form(Schema $schema): Schema
+    {
+        return PeriodForm::configure($schema);
+    }
+
+    public static function infolist(Schema $schema): Schema
+    {
+        return PeriodInfolist::configure($schema);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return PeriodsTable::configure($table);
+    }
+
+    /** @return Builder<Period> */
+    public static function getRecordRouteBindingEloquentQuery(): Builder
+    {
+        return parent::getRecordRouteBindingEloquentQuery()
+            ->withoutGlobalScopes([SoftDeletingScope::class]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => ListPeriods::route('/'),
+            'create' => CreatePeriod::route('/create'),
+            'view' => ViewPeriod::route('/{record}'),
+            'edit' => EditPeriod::route('/{record}/edit'),
+        ];
+    }
+}
