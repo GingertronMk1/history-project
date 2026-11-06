@@ -8,6 +8,7 @@ use App\Models\Playwright;
 use App\Models\Season;
 use App\Models\Show;
 use App\Models\Venue;
+use App\Models\Year;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
@@ -29,7 +30,8 @@ class SeedFromOldProject extends Command
         $this->withProgressBar($files, function (string $file) use (&$errors) {
             try {
                 $data = YamlFrontMatter::parse(Storage::disk('local')->get($file));
-                $year = preg_replace('/.*\/(\d\d_\d\d)\/.*/', '$1', $file);
+                $yearTitle = preg_replace('/.*\/(\d\d_\d\d)\/.*/', '$1', $file);
+                $year = Year::query()->firstOrCreate(['name' => $yearTitle]);
                 $company = $data->matter('company') ? Company::query()->firstOrCreate(['name' => $data->matter('company')]) : null;
                 $season = $data->matter('season') ? Season::query()->firstOrCreate(['name' => $data->matter('season')]) : null;
                 $period = $data->matter('period') ? Period::query()->firstOrCreate(['name' => $data->matter('period')]) : null;
@@ -38,7 +40,7 @@ class SeedFromOldProject extends Command
                 Show::query()->create([
                     'title' => $data->matter('title'),
                     'description' => $data->body(),
-                    'year' => $year,
+                    'year_id' => $year->id,
                     'company_id' => $company?->id,
                     'season_id' => $season?->id,
                     'period_id' => $period?->id,

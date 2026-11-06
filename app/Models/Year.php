@@ -22,6 +22,6 @@ class Year extends Model
     /** @return HasMany<Show, $this> */
     public function shows(): HasMany
     {
-        return $this->hasMany(Show::class);
+        return $this->hasMany(Show::class)->orderBy('season_sort');
     }
 }
