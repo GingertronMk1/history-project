@@ -36,7 +36,7 @@ class ScanOldProject extends Command
         });
 
         $this->info('storing key data');
-        Storage::disk('local')->put('data.json', json_encode($keys, JSON_PRETTY_PRINT));
+        Storage::disk('local')->put('data.json', json_encode($keys, JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR));
         $this->newLine();
         ksort($keys);
         foreach ($keys as $key => $values) {

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->string('year_id')->constrained();
+            $table->foreignId('year_id')->constrained();
             $table->foreignId('company_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('season_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('period_id')->nullable()->constrained()->nullOnDelete();
